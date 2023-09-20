@@ -1,7 +1,6 @@
 import React from "react";
 
-export function Categories() {
-    const [activeIndex, setActiveIndex] = React.useState(0);
+export function Categories({activeIndex, onClickCategory}) {
 
     const categories = [
       'Все',
@@ -12,9 +11,7 @@ export function Categories() {
       'Закрытые'
     ];
 
-    const onClickCategory = (index) => {
-      setActiveIndex(index);
-    }
+
 
     return (
       <div className="categories">
