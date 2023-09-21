@@ -1,9 +1,11 @@
 import React from "react";
+import { useSelector, useDispatch} from 'react-redux';
+import { setTypeSort } from "../redux/slices/filterSlice";
 
-export function Sort({typeSort, setTypeSort}) {
+export function Sort() {
   const [open, setOpen] = React.useState(false);
-  // const [typeSort, setTypeSort] = React.useState(0);
-  
+  const typeSort = useSelector(state => state.filter.typeSort);
+  const dispatch = useDispatch();
   
   const sortingTypes = [
     {name: 'популярности', sort: 'rating'},
@@ -13,7 +15,7 @@ export function Sort({typeSort, setTypeSort}) {
   ];
 
   const onClickTypeSort = (sort) => {
-    setTypeSort(sort);
+    dispatch(setTypeSort(sort));
     setOpen(false);
   }
 
@@ -32,6 +34,7 @@ export function Sort({typeSort, setTypeSort}) {
             />
           </svg>
           <b>Сортировка по:</b>
+          {/* {console.log(sortingTypes.find(obj => obj.sort === typeSort).name, typeSort)} */}
           <span>{sortingTypes.find(obj => obj.sort === typeSort).name}</span>
         </div>
         {open &&
