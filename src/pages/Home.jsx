@@ -82,7 +82,7 @@ export function Home() {
       });
       navigate(`?${queryString}`);
     }
-    console.log(isMounted);
+
     isMounted.current = true;
 
   }, [categoryId, typeSort, currentPage]);
