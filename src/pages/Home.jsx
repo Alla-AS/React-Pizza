@@ -1,16 +1,15 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import qs from 'qs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { Categories } from '../components/Categories';
 import { Sort } from '../components/Sort';
 import { PizzaBlock } from '../components/PizzaBlock/index';
 import { PizzaSkeleton } from '../components/PizzaBlock/PizzaSkeleton';
 import { Pagination } from '../components/Pagination';
-import { AppContext } from '../App';
-import { setFilters } from "../redux/slices/filterSlice";
-import { fetchPizzas } from '../redux/slices/pizzasSlice';
+import { selectFilter, setFilters } from "../redux/slices/filterSlice";
+import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzasSlice';
 
 
 
@@ -20,15 +19,11 @@ export function Home() {
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
-  const {categoryId, typeSort, currentPage} = useSelector(state => state.filter);
-  const {pizzas, status} = useSelector(state => state.pizza);
-  const {searchValue} = React.useContext(AppContext);
-  // const [pizzas, setPizzas] = React.useState([]);
-  // const [isLoadingPizzas, setIsLoadingPizzas] = React.useState(true);
-
+  const {categoryId, typeSort, currentPage, searchValue} = useSelector(selectFilter);
+  const {pizzas, status} = useSelector(selectPizzaData);
 
   const items = pizzas
-    .map((obj) => (<PizzaBlock key={obj.id} {...obj}/>));
+    .map((obj) => (<Link to={`/pizza/${obj.id}`} key={obj.id}><PizzaBlock {...obj}/></Link>));
   const skeletons = [...new Array(6)]
     .map((_, index) => <PizzaSkeleton key={index}/>);
 
@@ -39,21 +34,6 @@ export function Home() {
     const order = typeSort.includes('-') ? 'desc' : 'asc';
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    // try {
-    //   // setIsLoadingPizzas(true);
-    //   dispatch(fetchPizzas({
-    //     category,
-    //     sortby,
-    //     order,
-    //     search,
-    //     currentPage
-    //   }))
-    // } catch (error) {
-    //   console.log('Error', error);
-    //   alert('Ошибка запроса пицц');
-    // } finally {
-    //   // setIsLoadingPizzas(false);
-    // }
     dispatch(fetchPizzas({
       category,
       sortby,
