@@ -1,28 +1,35 @@
 import React from "react";
 import { useSelector, useDispatch} from 'react-redux';
 import { selectSort, setTypeSort } from "../redux/slices/filterSlice";
+import { Sort } from "../redux/slices/filterSlice"
 
-export function Sort() {
-  const sortRef = React.useRef();
+export const SortBlock: React.FC = React.memo(() => {
+  const sortRef = React.useRef<HTMLDivElement>(null);
   const [open, setOpen] = React.useState(false);
   const typeSort = useSelector(selectSort);
   const dispatch = useDispatch();
   
-  const sortingTypes = [
+  type SortItem = {
+    name: string;
+    sort: Sort;
+  }
+  
+
+  const sortingTypes: SortItem[] = [
     {name: 'популярности', sort: 'rating'},
     {name: 'цене по возрастанию', sort: 'price'},
     {name: 'цене по убыванию', sort: '-price'},
     {name: 'алфавиту', sort: 'title'}
   ];
 
-  const onClickTypeSort = (sort) => {
+  const onClickTypeSort = (sort: Sort) => {
     dispatch(setTypeSort(sort));
     setOpen(false);
   }
 
   React.useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!event.composedPath().includes(sortRef.current)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
         setOpen(false);
       }
     }
@@ -46,8 +53,7 @@ export function Sort() {
             />
           </svg>
           <b>Сортировка по:</b>
-          {/* {console.log(sortingTypes.find(obj => obj.sort === typeSort).name, typeSort)} */}
-          <span>{sortingTypes.find(obj => obj.sort === typeSort).name}</span>
+          <span>{sortingTypes.find(obj => obj.sort === typeSort)?.name}</span>
         </div>
         {open &&
           <div className="sort__popup">
@@ -62,7 +68,6 @@ export function Sort() {
             </ul>
           </div>
         }
-        
       </div>
     );
-  }
+  }) 

@@ -1,11 +1,12 @@
+import React from 'react';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { CartItem } from "../components/CartItem";
+import { CartItemBlock } from "../components/CartItem";
 import { clearItems, selectCart } from "../redux/slices/cartSlice";
 import { CartEmpty } from "../components/CartEmpty";
 
-export function Cart() {
+export const Cart: React.FC = () => {
   const dispatch = useDispatch();
   const {totalPrice, items} = useSelector(selectCart);
 
@@ -40,8 +41,8 @@ export function Cart() {
             </div>
           </div>
           <div className="content__items">
-            {items.map((item) =>
-              <CartItem
+            {items.map((item: any) =>
+              <CartItemBlock
                 key={item.id}
                 {...item}
               />
@@ -49,7 +50,7 @@ export function Cart() {
         </div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">
-            <span> Всего пицц: <b>{items.reduce((sum, obj) => sum + obj.count, 0)} шт.</b> </span>
+            <span> Всего пицц: <b>{items.reduce((sum: number, obj: any) => sum + obj.count, 0)} шт.</b> </span>
             <span> Сумма заказа: <b>{totalPrice} ₽</b> </span>
           </div>
           <div className="cart__bottom-buttons">

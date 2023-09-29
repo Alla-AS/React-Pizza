@@ -4,7 +4,7 @@ import { Search } from "./Search";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { selectCart } from "../redux/slices/cartSlice";
 
-export function Header() {
+export const Header: React.FC = () => {
   const {items, totalPrice} = useSelector(selectCart);
   const {pathname} = useLocation();
 
@@ -20,7 +20,7 @@ export function Header() {
               </div>
             </div>
           </Link>
-          <Search/>
+          {pathname !== '/cart' && <Search/>}
           <div className="header__cart">
             {pathname !== '/cart' && 
               <Link to="/cart" className="button button--cart">
@@ -54,7 +54,7 @@ export function Header() {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <span>{items.reduce((sum, obj) => sum + obj.count, 0)}</span>
+                <span>{items.reduce((sum: number, obj: any) => sum + obj.count, 0)}</span>
               </Link>   
             }
           </div>

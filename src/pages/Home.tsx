@@ -1,21 +1,24 @@
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import qs from 'qs';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 
 import { Categories } from '../components/Categories';
-import { Sort } from '../components/Sort';
+import { SortBlock } from '../components/Sort';
 import { PizzaBlock } from '../components/PizzaBlock/index';
 import { PizzaSkeleton } from '../components/PizzaBlock/PizzaSkeleton';
 import { Pagination } from '../components/Pagination';
 import { selectFilter, setFilters } from "../redux/slices/filterSlice";
 import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzasSlice';
+import { useAppDispatch } from '../redux/store';
+import { FilterSliceState } from '../redux/slices/filterSlice';
+// import { SearchPizzaParams } from '../redux/slices/pizzasSlice';
 
 
 
-export function Home() {
+export const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
@@ -23,7 +26,7 @@ export function Home() {
   const {pizzas, status} = useSelector(selectPizzaData);
 
   const items = pizzas
-    .map((obj) => (<Link to={`/pizza/${obj.id}`} key={obj.id}><PizzaBlock {...obj}/></Link>));
+    .map((obj: any) => (<PizzaBlock key={obj.id} {...obj}/>));
   const skeletons = [...new Array(6)]
     .map((_, index) => <PizzaSkeleton key={index}/>);
 
@@ -34,7 +37,8 @@ export function Home() {
     const order = typeSort.includes('-') ? 'desc' : 'asc';
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    dispatch(fetchPizzas({
+    dispatch(
+      fetchPizzas({
       category,
       sortby,
       order,
@@ -43,19 +47,17 @@ export function Home() {
     }));
   } 
 
-  React.useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
+  // React.useEffect(() => {
+  //   if (window.location.search) {
+  //     const params = (qs.parse(window.location.search.substring(1)) as unknown) as FilterSliceState;
       
-      dispatch (
-        setFilters({
-          ...params
-        })
-      )
-      isSearch.current = true;
-    }
+  //     dispatch (
+  //       setFilters(params)
+  //     )
+  //     isSearch.current = true;
+  //   }
 
-  }, []);
+  // }, []);
 
 
   React.useEffect(() => {
@@ -63,30 +65,28 @@ export function Home() {
     if (!isSearch.current) {
       getPizzas();
     }
-
     isSearch.current = false;
-
   }, [categoryId, typeSort, searchValue, currentPage]); 
   
-  React.useEffect(() => {
-    if (isMounted.current) {
-      const queryString = qs.stringify({
-        typeSort,
-        categoryId,
-        currentPage
-      });
-      navigate(`?${queryString}`);
-    }
+  // React.useEffect(() => {
+  //   if (isMounted.current) {
+  //     const queryString = qs.stringify({
+  //       typeSort,
+  //       categoryId,
+  //       currentPage
+  //     });
+  //     navigate(`?${queryString}`);
+  //   }
 
-    isMounted.current = true;
+  //   isMounted.current = true;
 
-  }, [categoryId, typeSort, currentPage]);
+  // }, [categoryId, typeSort, currentPage]);
 
   return (
     <div className="container">
       <div className="content__top">
         <Categories/>
-        <Sort/>
+        <SortBlock/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? 
