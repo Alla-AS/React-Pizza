@@ -1,7 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch} from 'react-redux';
-import { selectSort, setTypeSort } from "../redux/slices/filterSlice";
-import { Sort } from "../redux/slices/filterSlice"
+import { selectSort } from "../redux/slices/filter/selectors";
+import { Sort } from "../redux/slices/filter/types";
+import { setTypeSort } from "../redux/slices/filter/slice";
 
 export const SortBlock: React.FC = React.memo(() => {
   const sortRef = React.useRef<HTMLDivElement>(null);

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import qs from 'qs';
 import { useNavigate} from 'react-router-dom';
 
 import { Categories } from '../components/Categories';
@@ -8,11 +7,10 @@ import { SortBlock } from '../components/Sort';
 import { PizzaBlock } from '../components/PizzaBlock/index';
 import { PizzaSkeleton } from '../components/PizzaBlock/PizzaSkeleton';
 import { Pagination } from '../components/Pagination';
-import { selectFilter, setFilters } from "../redux/slices/filterSlice";
-import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzasSlice';
 import { useAppDispatch } from '../redux/store';
-import { FilterSliceState } from '../redux/slices/filterSlice';
-// import { SearchPizzaParams } from '../redux/slices/pizzasSlice';
+import { selectFilter } from '../redux/slices/filter/selectors';
+import { selectPizzaData } from '../redux/slices/pizzas/selectors';
+import { fetchPizzas } from '../redux/slices/pizzas/asyncActions';
 
 
 

@@ -1,12 +1,22 @@
+import React from 'react';
 import { Link, useLocation } from "react-router-dom";
 import logoSvg from "../assets/img/pizza-logo.svg"
 import { Search } from "./Search";
 import { useSelector } from "react-redux/es/hooks/useSelector";
-import { selectCart } from "../redux/slices/cartSlice";
+import { selectCart } from "../redux/slices/cart/selectors";
 
 export const Header: React.FC = () => {
   const {items, totalPrice} = useSelector(selectCart);
   const {pathname} = useLocation();
+  const isMounted = React.useRef(false);
+
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(items);
+    localStorage.setItem('cart', json);
+    }
+    isMounted.current = true;
+  }, [items]);
 
     return (
       <div className="header">
