@@ -23,7 +23,7 @@ body {
 }
 
 .content {
-  padding: 40px 0;
+  padding-bottom: 20px;
 
   &__error-info {
     margin: 100px auto;
@@ -45,15 +45,10 @@ body {
   }
 
   &__items {
-    // display: flex;
-    // flex-wrap: wrap;
-    // // justify-content: space-around;
-    // gap: 28px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(2, 1fr);
       grid-column-gap: 20px;
-      // grid-row-gap: 20px;
 
       @media (max-width: 1400px) {
         grid-template-columns: repeat(3, 1fr);
@@ -76,7 +71,6 @@ body {
     justify-content: space-between;
 
     @media (max-width: 1260px) {
-      // flex-direction: column-reverse;
       .categories {
         width: 100%;
         overflow: scroll;
@@ -128,6 +122,12 @@ body {
     margin: 90px auto;
     .content__title {
       margin: 0;
+    }
+  }
+  
+  @media (max-width: 900px) {
+    &--cart {
+      margin: 20px auto;
     }
   }
 }
@@ -413,6 +413,85 @@ body {
       margin: 0 auto;
       font-weight: 600;
       font-size: 18px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .content__items {
+      display: flex;
+      justify-content: space-around;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    
+    &__item {
+      position: relative;
+      flex-direction: column;
+      align-items: center;
+      width: 300px;
+      border: 1px solid $gray-line;
+      border-radius: 20px;
+      &-img {
+        display: block;
+        text-align: center;
+        margin-right: 0px;
+        padding-left: 7px;
+        width: 100%;
+        img {
+          width: 200px;
+          height: 200px;
+        }
+      }
+  
+      &-info {
+        text-align: center;
+        width: 100%;
+        margin: 10px;
+      }
+  
+      &-count {
+
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        margin: 10px;
+      }
+  
+      &-price {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding-bottom: 20px;
+      }
+  
+      &-remove {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+    }
+  }
+
+  @media (max-width: 510px) {
+    &__top {
+      flex-direction: column;
+      gap: 30px;
+    }
+  
+    &__bottom {
+  
+      &-details {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+  
+      &-buttons {
+        flex-direction: column-reverse;
+        gap: 30px;
+        align-items: center;
+      }
     }
   }
 }
